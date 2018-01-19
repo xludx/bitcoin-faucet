@@ -1,6 +1,6 @@
 let bluebird = require('bluebird');
 let redis = require('redis');
-let config = require('./config.json');
+let config = require('./data/particl-faucet/config.json');
 
 bluebird.promisifyAll(redis.RedisClient.prototype);
 

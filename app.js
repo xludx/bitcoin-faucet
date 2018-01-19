@@ -3,7 +3,7 @@ let express = require('express');
 let bitcoin = require('bitcoin');
 let reporter = require('./reporter');
 let bodyParser = require('body-parser');
-let config = require('./config.json');
+let config = require('./data/particl-faucet/config.json');
 
 let ipdb = new db.default(config.REDIS_SERVER, config.REDIS_PORT, config.REDIS_PASSWORD);
 

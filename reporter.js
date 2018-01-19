@@ -1,4 +1,4 @@
-let config = require('./config.json');
+let config = require('./data/particl-faucet/config.json');
 let WebClient = require('@slack/client').WebClient;
 
 let token = config.SLACK_API_TOKEN || null;

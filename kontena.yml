@@ -7,6 +7,8 @@ services:
     instances: 1
 #    ports:
 #      - 3333:3333
+    volumes:
+        - /root/data/particl-faucet/config.json:/app/config.json
     links:
       - redisfaucet
       - particldfaucet
@@ -24,7 +26,7 @@ services:
 
   redisfaucet:
     image: redis:4-alpine
-    command: redis-server --requirepass pa$$word
+    command: redis-server --requirepass salakala
     affinity:
       - node==kontena-agent2
       - label==faucet=1
