@@ -1,0 +1,44 @@
+---
+stack: ludx/faucet-stack
+version: 0.1.0
+services:
+  faucet:
+    image: ludx/particl-faucet:latest
+    instances: 1
+#    ports:
+#      - 3333:3333
+    links:
+      - redisfaucet
+      - particldfaucet
+      - loadbalancerstack/internet_lb
+    environment:
+      - NODE_ENV=development
+      - PORT=3333
+      - KONTENA_LB_MODE=http
+      - KONTENA_LB_BALANCE=roundrobin
+      - KONTENA_LB_INTERNAL_PORT=3333
+      - KONTENA_LB_VIRTUAL_HOSTS=faucet.particl.xyz
+    affinity:
+      - node==kontena-agent2
+      - label==faucet=1
+
+  redisfaucet:
+    image: redis:4-alpine
+    command: redis-server --requirepass pa$$word
+    affinity:
+      - node==kontena-agent2
+      - label==faucet=1
+
+  particldfaucet:
+    image: ludx/particl:0.15.1.1
+    volumes:
+      - /root/data/particl-faucet:/root/.particl
+    environment:
+      - CONF_TESTNET=1                  # Use the test chain
+      - CONF_PRINTTOCONSOLE=0           # Send trace/debug info to console instead of debug.log file
+      - CONF_SERVER=1                   # Accept command line and JSON-RPC commands
+      - CONF_RPCALLOWIP=0.0.0.0/0       # Allow JSON-RPC connections from specified source. Valid for <ip> are a single IP (e.g. 1.2.3.4), a network/netmask (e.g. 1.2.3.4/255.255.255.0) or a network/CIDR (e.g. 1.2.3.4/24).
+      - CONF_LISTEN=1                   # Accept connections from outside (default: 1 if no -proxy or -connect)
+    affinity:
+      - node==kontena-agent2
+      - label==faucet=1

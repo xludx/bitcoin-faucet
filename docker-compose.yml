@@ -1,0 +1,32 @@
+version: '3'
+
+services:
+  faucet:
+    build:
+      context: ./
+    ports:
+      - 3333:3000
+    links:
+      - redis
+      - particld
+    depends_on:
+      - redis
+      - particld
+    environment:
+      - NODE_ENV=development
+      - PORT=3000
+
+  redis:
+    image: redis:4-alpine
+    command: redis-server --requirepass pa$$word
+
+  particld:
+    image: ludx/particl:0.15.1.1
+    volumes:
+      - ./data/particl-faucet:/root/.particl
+    environment:
+      - CONF_TESTNET=1                  # Use the test chain
+      - CONF_PRINTTOCONSOLE=0           # Send trace/debug info to console instead of debug.log file
+      - CONF_SERVER=1                   # Accept command line and JSON-RPC commands
+      - CONF_RPCALLOWIP=0.0.0.0/0       # Allow JSON-RPC connections from specified source. Valid for <ip> are a single IP (e.g. 1.2.3.4), a network/netmask (e.g. 1.2.3.4/255.255.255.0) or a network/CIDR (e.g. 1.2.3.4/24).
+      - CONF_LISTEN=1                   # Accept connections from outside (default: 1 if no -proxy or -connect)

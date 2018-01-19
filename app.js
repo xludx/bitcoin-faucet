@@ -26,6 +26,11 @@ let client = new bitcoin.Client({
     timeout: 30000
 });
 
+client.getWalletInfo((err, info) => {
+    console.log('getWalletInfo: ', info);
+});
+
+
 app.set('view engine', 'pug');
 app.use('/styles', express.static('styles'));
 app.use('/img', express.static('img'));
@@ -34,10 +39,24 @@ app.use('/js', express.static('js'));
 
 app.get('/', (req, res) => {
 
-    res.render('form', {
-        title: config.FAUCET_TITLE,
-        infotext: config.FAUCET_JUST_FOR_YOU,
-        message: '┬──┬﻿ ノ( ゜-゜ノ)'
+    client.getBalance((err, balance) => {
+        if (err) {
+            console.log('error: ', err);
+        }
+        console.log('balance: ', balance);
+
+        client.getAccountAddress('""', (err, address) => {
+            if (err) {
+                console.log('error: ', err);
+            }
+            console.log('address: ', address);
+
+            res.render('form', {
+                title: config.FAUCET_TITLE,
+                infotext: config.FAUCET_JUST_FOR_YOU,
+                message: '┬──┬﻿ ノ( ゜-゜ノ) --( wallet balance: ' + balance + ', address: ' + address + ' )'
+            });
+        });
     });
 });
 
@@ -85,7 +104,7 @@ app.post('/give', (req, res) => {
 
                     // Report if balance low
                     if (res < config.FAUCET_REPORT_LOW_BALANCE) {
-                        reporter.report('warning', "Faucet balance low!! " + res + " tBTC left over.");
+                        reporter.report('warning', "Faucet balance low!! " + res + " tPART left over.");
                     }
 
                     let amount = (config.FAUCET_PERCENTAGE * res).toFixed(4);
@@ -95,10 +114,10 @@ app.post('/give', (req, res) => {
                     let address = req.body.address;
 
                     // Create send object for sendMany
-                    let send = {};
-                    send[address] = amount;
+                    // let send = {};
+                    // send[address] = amount;
 
-                    client.sendMany("", send, 0, (err, res) => {
+                    client.sendToAddress(address, amount, (err, res) => {
                         if (err) {
                             return renderRejection('error sending. check back later, you did nothing wrong.');
                         }
@@ -111,7 +130,7 @@ app.post('/give', (req, res) => {
                         return response.render('done', {
                             title: config.FAUCET_TITLE,
                             infotext: config.FAUCET_JUST_FOR_YOU,
-                            resulttext: amount + ' tBTC have been sent to ' + address,
+                            resulttext: amount + ' tPART have been sent to ' + address,
                             txid: 'Transaction id: ' + res,
                             message: '(╯°o°)╯︵ ┻━━┻'
                         });
@@ -126,7 +145,7 @@ app.post('/give', (req, res) => {
 });
 
 ipdb.connect().then(() => {
-    console.log("Testnet 5 faucet ready");
+    console.log("Testnet faucet ready");
 })
     .catch((err) => {
         console.log(err);

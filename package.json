@@ -1,17 +1,17 @@
 {
-  "name": "bitcoin-faucet",
+  "name": "particl-faucet",
   "version": "0.1.0",
-  "description": "testnet5 faucet",
+  "description": "testnet faucet",
   "main": "app.js",
   "scripts": {
+    "start": "node app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
-    "bitcoin",
-    "testnet5",
-    "segwit2x"
+    "particl",
+    "testnet"
   ],
-  "author": "Tobias Hoffmann",
+  "author": "Juha Kovanen",
   "license": "MIT",
   "dependencies": {
     "@slack/client": "^3.10.0",
