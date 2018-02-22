@@ -93,9 +93,9 @@ app.post('/give', (req, res) => {
 
                 console.log('give', ip, "user entered: [" + req.body.address + ']', counter);
 
-                if (counter > config.FAUCET_MAX_PER_TTL) {
-                    return renderRejection('you did that to often already');
-                }
+                // if (counter > config.FAUCET_MAX_PER_TTL) {
+                //    return renderRejection('you did that to often already');
+                // }
                 // Get balance to calculate how much to give and to check for low balance (reporting)
                 client.getBalance((err, res) => {
                     if (err) {

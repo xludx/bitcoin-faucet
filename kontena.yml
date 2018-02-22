@@ -22,7 +22,7 @@ services:
       - KONTENA_LB_VIRTUAL_HOSTS=faucet.particl.xyz
     affinity:
       - node==kontena-agent2
-      - label==faucet=1
+#      - label==faucet=1
 
   redisfaucet:
     image: redis:4-alpine
@@ -32,7 +32,7 @@ services:
       - label==faucet=1
 
   particldfaucet:
-    image: ludx/particl:0.15.1.1
+    image: ludx/particl:latest
     volumes:
       - /root/data/particl-faucet:/root/.particl
     environment:
@@ -43,4 +43,4 @@ services:
       - CONF_LISTEN=1                   # Accept connections from outside (default: 1 if no -proxy or -connect)
     affinity:
       - node==kontena-agent2
-      - label==faucet=1
+#      - label==faucet=1
