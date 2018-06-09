@@ -45,10 +45,11 @@ app.get('/', (req, res) => {
         }
         console.log('balance: ', balance);
 
-        client.getAccountAddress('""', (err, address) => {
-            if (err) {
-                console.log('error: ', err);
-            }
+//        client.getAccountAddress('""', (err, address) => {
+//            if (err) {
+//                console.log('error: ', err);
+//            }
+            let address = 'pcngesVDdHqADDBu83A29phDbFbsmc1sFd';
             console.log('address: ', address);
 
             res.render('form', {
@@ -56,7 +57,7 @@ app.get('/', (req, res) => {
                 infotext: config.FAUCET_JUST_FOR_YOU,
                 message: '┬──┬﻿ ノ( ゜-゜ノ) --( wallet balance: ' + balance + ', address: ' + address + ' )'
             });
-        });
+//        });
     });
 });
 

@@ -12,7 +12,7 @@ services:
     links:
       - redisfaucet
       - particldfaucet
-      - loadbalancerstack/internet_lb
+      - loadbalancerstack/internet-lb
     environment:
       - NODE_ENV=development
       - PORT=3333
@@ -29,10 +29,10 @@ services:
     command: redis-server --requirepass salakala
     affinity:
       - node==kontena-agent2
-      - label==faucet=1
+#      - label==faucet=1
 
   particldfaucet:
-    image: ludx/particl:latest
+    image: ludx/particl:0.16.0.7
     volumes:
       - /root/data/particl-faucet:/root/.particl
     environment:
