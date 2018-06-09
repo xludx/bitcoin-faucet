@@ -5,6 +5,8 @@ let reporter = require('./reporter');
 let bodyParser = require('body-parser');
 let config = require('./data/particl-faucet/config.json');
 
+console.log('config: ', config);
+
 let ipdb = new db.default(config.REDIS_SERVER, config.REDIS_PORT, config.REDIS_PASSWORD);
 
 // INIT //
