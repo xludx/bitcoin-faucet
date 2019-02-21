@@ -32,7 +32,7 @@ services:
 #      - label==faucet=1
 
   particldfaucet:
-    image: ludx/particl:0.18
+    image: ludx/particl:0.18.0.4alpha
     volumes:
       - /root/data/particl-faucet:/root/.particl
     environment:
