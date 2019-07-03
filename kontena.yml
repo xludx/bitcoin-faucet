@@ -3,7 +3,7 @@ stack: ludx/faucet-stack
 version: 0.1.0
 services:
   faucet:
-    image: ludx/particl-faucet:latest
+    image: ludx/particl-faucet:0.8
     instances: 1
 #    ports:
 #      - 3333:3333
