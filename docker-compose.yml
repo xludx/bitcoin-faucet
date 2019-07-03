@@ -23,7 +23,7 @@ services:
     command: redis-server --requirepass salakala
 
   particldfaucet:
-    image: ludx/particl:0.15.1.1
+    image: ludx/particl:0.18.0.11
     volumes:
       - ./data/particl-faucet:/root/.particl
     environment:
